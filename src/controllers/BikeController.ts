@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { User } from '../entities/User';
 import { Bike } from '../entities/Bike';
 import { Brand } from "../entities/Brand";
-import { Category } from "../entities/Category";
+import { Category } from "../entities/Models";
 
 class BikeController {
   public async create(req: Request, res: Response): Promise<Response> {

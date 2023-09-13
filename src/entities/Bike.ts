@@ -1,12 +1,13 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Brand } from "./Brand"
 import { Photo } from "./Photo";
-import { Category } from "./Category";
+import { Models } from "./Models";
+import {Material} from "./Material";
 import { User } from "./User";
 import { Rent } from "./Rent";
 
 export type Gender = "masculino" | "feminino" | "unissex";
-export type Material = "aluminio" | "carbono" | "ferro";
+
 
 @Entity({ name: "bikes" })
 export class Bike {
@@ -60,9 +61,9 @@ export class Bike {
     @JoinColumn({ name: "idbrand" })
     brand: Brand;
 
-    @ManyToOne(() => Category, {nullable:false})
+    @ManyToOne(() => Models, {nullable:false})
     @JoinColumn({name: "idcategory"})
-    category: Category
+    category: Models
 
     @ManyToOne(() => User, {nullable:false})
     @JoinColumn({name: "iduser"})
