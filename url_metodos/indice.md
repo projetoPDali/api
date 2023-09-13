@@ -177,3 +177,58 @@ http://localhost:3001/usuario
     "phone": "12988775560"
   }
 ]
+
+
+Metodo POST:
+
+http://localhost:3001
+bike - JSON:
+{
+  "iduser":1,
+  "idcategory":1,
+  "idbrandy":1,
+  "color":"preta",
+  "size":"17",
+  "material":"aluminio",
+  "gender":"unissex",
+  "speedkit":"2x10",
+  "rim":29,
+  "suspension":true,
+  "description":"Bicicleta nova",
+  "dailyvalue":30,
+  "hourlyvalue":10,
+  "latitude":1.1,
+  "longitude":2.2
+}
+
+http://localhost:3001
+categoria - JSON:
+
+{
+  "name":"MTB"
+}
+
+http://localhost:3001
+foto - JSON:
+
+
+http://localhost:3001
+locacao - JSON:
+
+
+http://localhost:3001
+marca - JSON:
+
+{
+   "name": "Barra forte"
+},
+
+http://localhost:3001
+usuario - JSON:
+
+{
+  "alias":"ccc",
+  "mail":"c@teste.com",
+  "phone":"12988775560"
+}
+
