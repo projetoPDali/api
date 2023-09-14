@@ -30,11 +30,9 @@ export class Rent {
     @JoinColumn({ name: "bikeId", referencedColumnName: "id" })
     bike: Bike;
 
-    @ManyToOne(() => User, { nullable: false })
-    @JoinColumn({ name: "ownerId", referencedColumnName: "id" })
-    owner: User;
+   
 
     @ManyToOne(() => User, { nullable: false })
-    @JoinColumn({ name: "clientId", referencedColumnName: "id" })
-    client: User;
+    @JoinColumn({ name: "userId", referencedColumnName: "id" })
+    users: User;
 }
