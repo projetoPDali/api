@@ -1,6 +1,6 @@
 import AppDataSource from "../data-source";
 import { Request, Response } from 'express';
-import { Category } from '../entities/Category';
+import { Category } from '../entities/Models';
 
 class CategoryController {
   public async create(req: Request, res: Response): Promise<Response> {
