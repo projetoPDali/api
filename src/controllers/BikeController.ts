@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { User } from '../entities/User';
 import { Bike } from '../entities/Bike';
 import { Brand } from "../entities/Brand";
-import { Category } from "../entities/Models";
+import { Models } from "../entities/Models";
 
 class BikeController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -22,7 +22,7 @@ class BikeController {
     }
 
     //obtém a categoria na tabela categories
-    const category = await AppDataSource.manager.findOneBy(Category, { id: idcategory });
+    const category = await AppDataSource.manager.findOneBy(Models, { id: idcategory });
     if (!category) {
       return res.status(400).json({ error: "Categoria desconhecida", props:"category" });
     }
@@ -47,7 +47,7 @@ class BikeController {
     }
 
     //obtém a categoria na tabela categories
-    const category = await AppDataSource.manager.findOneBy(Category, { id: idcategory });
+    const category = await AppDataSource.manager.findOneBy(Models, { id: idcategory });
     if (!category) {
       return res.status(400).json({ error: "Categoria desconhecida", props:"category" });
     }
