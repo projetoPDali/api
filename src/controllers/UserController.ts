@@ -14,7 +14,7 @@ class UserController {
       else if (/(mail)[\s\S]+(already exists)/.test(e.detail)) {
         return { error: 'E-mail já existe', props:"mail" };
       }
-      // testa se o e-mail é repetido
+      // testa se o telefone é repetido
       else if (/(phone)[\s\S]+(already exists)/.test(e.detail)) {
         return { error: 'Telefone já existe', props:"phone" };
       }
@@ -42,7 +42,7 @@ class UserController {
       else if (/(mail)[\s\S]+(already exists)/.test(e.detail)) {
         return { error: 'E-mail já existe', props:"mail" };
       }
-      // testa se o e-mail é repetido
+      // testa se o telefone é repetido
       else if (/(phone)[\s\S]+(already exists)/.test(e.detail)) {
         return { error: 'Telefone já existe', props:"phone" };
       }
