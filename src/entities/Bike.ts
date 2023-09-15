@@ -12,6 +12,7 @@ import { Models } from "./Models";
 import { Material } from "./Material";
 import { User } from "./User";
 import { Rent } from "./Rent";
+import { Kind } from "./Kind"; // Importe a classe Kind
 
 export type Gender = "masculino" | "feminino" | "unissex";
 
@@ -19,9 +20,6 @@ export type Gender = "masculino" | "feminino" | "unissex";
 export class Bike {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column({ nullable: false, length: 30 })
-  color: string;
 
   @Column({ nullable: false, length: 10 })
   size: string;
@@ -55,8 +53,7 @@ export class Bike {
   @Column({ nullable: false, type: "decimal", precision: 10, scale: 2 })
   dailyvalue: number;
 
-
-  @Column({ nullable: false, length:100 })
+  @Column({ nullable: false, length: 100 })
   address: string;
 
   @ManyToOne(() => Brand, { nullable: false })
@@ -70,6 +67,10 @@ export class Bike {
   @ManyToOne(() => User, { nullable: false })
   @JoinColumn({ name: "userId" })
   user: User;
+
+  @ManyToOne(() => Kind, { nullable: false }) 
+  @JoinColumn({ name: "kindId" }) 
+  kind: Kind;
 
   @OneToMany(() => Photo, (photo) => photo.bike)
   photos: Photo[];
