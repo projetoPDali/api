@@ -68,6 +68,8 @@ class UserController {
     return res.json({ affected });
   }
 
+  //consulta o usuario pelo id
+
   public async getById(req: Request, res: Response): Promise<Response> {
     const { id } = req.params; // Assuming you pass the ID as a URL parameter
     const user = await AppDataSource.manager.findOne(User, {
