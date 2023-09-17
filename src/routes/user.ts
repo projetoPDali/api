@@ -7,6 +7,8 @@ routes.post('/', controller.create);
 routes.get('/', controller.list);
 routes.delete('/', controller.delete);
 routes.put('/', controller.update);
+routes.get('/:id', controller.getById); // Route for retrieving a user by ID
+
 
 //aceita qualquer método HTTP ou URL
 routes.use( (_:Request,res:Response) => res.json({error:"Requisição desconhecida"}) );

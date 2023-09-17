@@ -68,6 +68,19 @@ class UserController {
     return res.json({ affected });
   }
 
+  public async getById(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params; // Assuming you pass the ID as a URL parameter
+    const user = await AppDataSource.manager.findOne(User, {
+      where: { id: parseInt(id, 10) }, // Parse the id to an integer
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    return res.json(user);
+  }
+
 }
 
 export default new UserController();
