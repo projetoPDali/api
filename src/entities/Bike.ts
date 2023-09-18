@@ -1,20 +1,17 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from "typeorm";
 import { Brand } from "./Brand";
 import { Photo } from "./Photo";
 import { Models } from "./Models";
 import { Material } from "./Material";
 import { User } from "./User";
-import { Rent } from "./Rent";
-import { Kind } from "./Kind"; // Importe a classe Kind
+import { Address } from "./Address";
 
-export type Gender = "masculino" | "feminino" | "unissex";
+
+export enum BikeGender {
+  FEMININO = "feminino",
+  MASCULINO = "masculino",
+  UNISSEX = "unissex",
+}
 
 @Entity({ name: "bikes" })
 export class Bike {
@@ -28,15 +25,8 @@ export class Bike {
   @JoinColumn({ name: "materialId" })
   material: Material;
 
-  @Column({
-    nullable: false,
-    type: "enum",
-    enum: ["feminino", "masculino", "unissex"],
-  })
-  gender: Gender;
-
   @Column({ nullable: false, length: 10 })
-  speedkit: string;
+  gear: string;
 
   @Column({ nullable: false, type: "float" })
   rim: number;
@@ -47,15 +37,19 @@ export class Bike {
   @Column({ nullable: false, length: 200 })
   description: string;
 
+
+  
   @Column({ nullable: false, type: "decimal", precision: 10, scale: 2 })
   hourlyvalue: number;
 
   @Column({ nullable: false, type: "decimal", precision: 10, scale: 2 })
   dailyvalue: number;
 
-  @Column({ nullable: false, length: 100 })
-  address: string;
+  @ManyToOne(() => Address, { nullable: false })
+  @JoinColumn({ name: "addressId" })
+  address: Address;
 
+  
   @ManyToOne(() => Brand, { nullable: false })
   @JoinColumn({ name: "brandId" })
   brand: Brand;
@@ -68,13 +62,14 @@ export class Bike {
   @JoinColumn({ name: "userId" })
   user: User;
 
-  @ManyToOne(() => Kind, { nullable: false }) 
-  @JoinColumn({ name: "kindId" }) 
-  kind: Kind;
+  @Column({
+    type: "enum",
+    enum: BikeGender,
+    default: BikeGender.UNISSEX, // Valor padrão
+  })
+  gender: BikeGender;
 
   @OneToMany(() => Photo, (photo) => photo.bike)
   photos: Photo[];
 
-  @OneToMany(() => Rent, (rent) => rent.bike)
-  rents: Rent[];
 }
