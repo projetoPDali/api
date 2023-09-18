@@ -5,7 +5,7 @@ import { Models } from "./Models";
 import { Material } from "./Material";
 import { User } from "./User";
 import { Address } from "./Address";
-
+import { Rent } from "./Rent";
 
 export enum BikeGender {
   FEMININO = "feminino",
@@ -45,7 +45,7 @@ export class Bike {
   @Column({ nullable: false, type: "decimal", precision: 10, scale: 2 })
   dailyvalue: number;
 
-  @ManyToOne(() => Address, { nullable: false })
+  @ManyToOne(() => Address, { nullable: true })
   @JoinColumn({ name: "addressId" })
   address: Address;
 
@@ -54,10 +54,7 @@ export class Bike {
   @JoinColumn({ name: "brandId" })
   brand: Brand;
 
-  @ManyToOne(() => Models, { nullable: false })
-  @JoinColumn({ name: "categoryId" })
-  category: Models;
-
+ 
   @ManyToOne(() => User, { nullable: false })
   @JoinColumn({ name: "userId" })
   user: User;
@@ -71,5 +68,8 @@ export class Bike {
 
   @OneToMany(() => Photo, (photo) => photo.bike)
   photos: Photo[];
+
+  @OneToMany(() => Rent, (rent) => rent.bike)
+  rents: Rent[];
 
 }
