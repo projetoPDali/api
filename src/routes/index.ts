@@ -6,6 +6,7 @@ import rent from './rent';
 import photo from './photo';
 import address from './address'
 import material from "./material";
+import models from "./models"
 
 const routes = Router();
 
@@ -16,6 +17,7 @@ routes.use("/marca", brand);
 routes.use("/usuario", user);
 routes.use("/endereco", address);
 routes.use("/material", material);
+routes.use("/material", models);
 
 //aceita qualquer método HTTP ou URL
 routes.use( (_:Request,res:Response) => res.json({error:"Requisição desconhecida"}) );
