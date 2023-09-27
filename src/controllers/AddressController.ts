@@ -4,13 +4,14 @@ import { Address } from '../entities/Address';
 
 class AddressController {
   public async create(req: Request, res: Response): Promise<Response> {
-    const { street, city, state, cep } = req.body;
+    const { id, street, city, state, cep } = req.body;
 
     if (!street || !city || !state || !cep) {
       return res.status(400).json({ error: "Todos os campos do endereço são obrigatórios" });
     }
 
     const address = new Address();
+    address.id = id;
     address.street = street;
     address.city = city;
     address.state = state;

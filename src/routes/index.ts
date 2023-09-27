@@ -16,6 +16,7 @@ routes.use("/marca", brand);
 routes.use("/usuario", user);
 routes.use("/endereco", address);
 routes.use("/material", material);
+routes.use("/endereco", address);
 
 //aceita qualquer método HTTP ou URL
 routes.use( (_:Request,res:Response) => res.json({error:"Requisição desconhecida"}) );

@@ -3,10 +3,11 @@ import { Request, Response } from 'express';
 import { User } from '../entities/User';
 import { Bike } from '../entities/Bike';
 import { Brand } from "../entities/Brand";
+import { Address } from "../entities/Address";
 
 class BikeController {
   public async create(req: Request, res: Response): Promise<Response> {
-    const { iduser, idbrand, color, size, material, gender, speedkit, rim, suspension,gear, description, hourlyvalue, dailyvalue, addressId } = req.body;
+    const { iduser, idbrand, color, size, material, gender, speedkit, rim, suspension,gear, description, hourlyvalue, dailyvalue, address } = req.body;
 
     //obtém o usuário na tabela users
     const user = await AppDataSource.manager.findOneBy(User, { id: iduser });
@@ -20,9 +21,35 @@ class BikeController {
       return res.status(400).json({ error: "Marca desconhecida", props:"brand" });
     }
 
-    const bike = await AppDataSource.manager.save(Bike, { user, brand, color, size, material, gender, speedkit, rim, suspension,gear, description, hourlyvalue, dailyvalue, addressId});
-    return res.json(bike);
-  }
+    // Create a new Address entity based on the provided address data
+  const newAddress = new Address();
+  newAddress.street = address.street;
+  newAddress.city = address.city;
+  newAddress.state = address.state;
+  newAddress.cep = address.cep;
+
+  // Save the new address entity
+  const savedAddress = await AppDataSource.manager.save(Address, newAddress);
+
+  // Create a new Bike entity with the address
+  const bike = await AppDataSource.manager.save(Bike, {
+    user,
+    brand,
+    color,
+    size,
+    material,
+    gender,
+    speedkit,
+    rim,
+    suspension,
+    gear,
+    description,
+    hourlyvalue,
+    dailyvalue,
+    address: savedAddress, // Associate the address with the bike
+  });
+  return res.json(bike);
+}
 
   public async update(req: Request, res: Response): Promise<Response> {
     const { id, iduser, idbrand, color, size, material, gender, speedkit, rim, suspension, gear, description, hourlyvalue, dailyvalue, } = req.body;

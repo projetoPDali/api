@@ -37,7 +37,6 @@ export class Bike {
   @Column({ nullable: false, length: 200 })
   description: string;
 
-
   
   @Column({ nullable: false, type: "decimal", precision: 10, scale: 2 })
   hourlyvalue: number;
