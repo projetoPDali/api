@@ -5,6 +5,6 @@ export class Brand {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: false, length: 20, unique:true })
+    @Column({ nullable: false, length: 50, unique:true })
     name: string
 }
