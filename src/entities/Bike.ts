@@ -1,17 +1,19 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Brand } from "./Brand";
 import { Photo } from "./Photo";
-import { Models } from "./Models";
 import { Material } from "./Material";
 import { User } from "./User";
-import { Address } from "./Address";
 import { Rent } from "./Rent";
+import { Address } from "./Address";
 
-export enum BikeGender {
-  FEMININO = "feminino",
-  MASCULINO = "masculino",
-  UNISSEX = "unissex",
-}
+export type Gender = "masculino" | "feminino" | "unissex";
 
 @Entity({ name: "bikes" })
 export class Bike {
@@ -21,9 +23,12 @@ export class Bike {
   @Column({ nullable: false, length: 10 })
   size: string;
 
-  @ManyToOne(() => Material, { nullable: false })
-  @JoinColumn({ name: "materialId" })
-  material: Material;
+  @Column({
+    nullable: false,
+    type: "enum",
+    enum: ["feminino", "masculino", "unissex"],
+  })
+  gender: Gender;
 
   @Column({ nullable: false, length: 10 })
   gear: string;
@@ -37,39 +42,31 @@ export class Bike {
   @Column({ nullable: false, length: 200 })
   description: string;
 
-
-  
   @Column({ nullable: false, type: "decimal", precision: 10, scale: 2 })
   hourlyvalue: number;
 
   @Column({ nullable: false, type: "decimal", precision: 10, scale: 2 })
   dailyvalue: number;
 
-  @ManyToOne(() => Address, { nullable: true })
-  @JoinColumn({ name: "addressId" })
-  address: Address;
-
-  
   @ManyToOne(() => Brand, { nullable: false })
-  @JoinColumn({ name: "brandId" })
+  @JoinColumn({ name: "idbrand" })
   brand: Brand;
 
- 
-  @ManyToOne(() => User, { nullable: false })
-  @JoinColumn({ name: "userId" })
-  user: User;
+  @ManyToOne(() => Material, { nullable: false })
+  @JoinColumn({ name: "idmaterial" })
+  material: Material;
 
-  @Column({
-    type: "enum",
-    enum: BikeGender,
-    default: BikeGender.UNISSEX, // Valor padrão
-  })
-  gender: BikeGender;
+  @ManyToOne(() => Address, { nullable: false })
+  @JoinColumn({ name: "idaddress" })
+  address: Address;
+
+  @ManyToOne(() => User, { nullable: false })
+  @JoinColumn({ name: "iduser" })
+  user: User;
 
   @OneToMany(() => Photo, (photo) => photo.bike)
   photos: Photo[];
 
   @OneToMany(() => Rent, (rent) => rent.bike)
   rents: Rent[];
-
 }
