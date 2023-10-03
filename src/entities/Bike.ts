@@ -12,8 +12,9 @@ import { Material } from "./Material";
 import { User } from "./User";
 import { Rent } from "./Rent";
 import { Address } from "./Address";
+import { Gender } from "./Gender";
 
-export type Gender = "masculino" | "feminino" | "unissex";
+
 
 @Entity({ name: "bikes" })
 export class Bike {
@@ -23,12 +24,7 @@ export class Bike {
   @Column({ nullable: false, length: 10 })
   size: string;
 
-  @Column({
-    nullable: false,
-    type: "enum",
-    enum: ["feminino", "masculino", "unissex"],
-  })
-  gender: Gender;
+ 
 
   @Column({ nullable: false, length: 10 })
   gear: string;
@@ -51,6 +47,10 @@ export class Bike {
   @ManyToOne(() => Brand, { nullable: false })
   @JoinColumn({ name: "idbrand" })
   brand: Brand;
+
+  @ManyToOne(() => Gender, { nullable: false })
+  @JoinColumn({ name: "idgender" })
+  gender: Gender;
 
   @ManyToOne(() => Material, { nullable: false })
   @JoinColumn({ name: "idmaterial" })

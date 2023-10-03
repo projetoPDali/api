@@ -5,6 +5,7 @@ import { Bike } from "../entities/Bike";
 import { Brand } from "../entities/Brand";
 import { Material } from "../entities/Material";
 import { Address } from "../entities/Address";
+import { Gender } from "../entities/Gender";
 
 class BikeController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -13,7 +14,7 @@ class BikeController {
       idmaterial,
       idbrand,
       size,
-      gender,
+      idgender,
       gear,
       rim,
       suspension,
@@ -37,6 +38,14 @@ class BikeController {
       return res
         .status(400)
         .json({ error: "Marca desconhecida", props: "brand" });
+    }
+
+    //obtém o genero na tabela Gender
+    const gender = await AppDataSource.manager.findOneBy(Gender, { id: idgender });
+    if (!gender) {
+      return res
+        .status(400)
+        .json({ error: "Genero não cadastrado", props: "gender" });
     }
 
     //obtém o endereço na tabela address
@@ -81,7 +90,7 @@ class BikeController {
       idmaterial,
       idbrand,
       size,
-      gender,
+      idgender,
       gear,
       rim,
       suspension,
@@ -107,6 +116,14 @@ class BikeController {
         .json({ error: "Marca desconhecida", props: "brand" });
     }
 
+//obtém o genero na tabela gender
+const gender = await AppDataSource.manager.findOneBy(Gender, { id: idgender });
+if (!gender) {
+  return res
+    .status(400)
+    .json({ error: "Genero não encontrado", props: "gender" });
+}
+
     //obtém material na tabela material
     const material = await AppDataSource.manager.findOneBy(Material, {
       id: idmaterial,
@@ -117,7 +134,7 @@ class BikeController {
         .json({ error: "Material desconhecido", props: "material" });
     }
 
-    //obtém material na tabela material
+    //obtém endereço na tabela Address
     const address = await AppDataSource.manager.findOneBy(Address, {
       id: idaddress,
     });
@@ -153,6 +170,7 @@ class BikeController {
         material: true,
         photos: true,
         address: true,
+        gender:true
       },
     });
     return res.json(bikes);
