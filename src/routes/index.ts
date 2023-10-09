@@ -6,10 +6,12 @@ import rent from './rent';
 import photo from './photo';
 import address from './address'
 import material from "./material";
+import gender from "./gender";
 
 const routes = Router();
 
 routes.use("/bike", bike);
+routes.use("/genero", gender);
 routes.use("/foto", photo);
 routes.use("/locacao", rent);
 routes.use("/marca", brand);
