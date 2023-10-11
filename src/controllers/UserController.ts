@@ -4,8 +4,8 @@ import { User } from '../entities/User';
 
 class UserController {
   public async create(req: Request, res: Response): Promise<Response> {
-    const { alias, mail, phone } = req.body;
-    const user = await AppDataSource.manager.save(User, { alias, mail, phone }).catch(e => {
+    const { name, alias, mail, phone, password } = req.body;
+    const user = await AppDataSource.manager.save(User, { name, alias, mail, phone, password }).catch(e => {
       // testa se o alias é repetido
       if (/(alias)[\s\S]+(already exists)/.test(e.detail)) {
         return { error: 'Codinome já existe', props:"alias" };
@@ -24,15 +24,17 @@ class UserController {
   }
 
   public async update(req: Request, res: Response): Promise<Response> {
-    const { id, alias, mail, phone } = req.body;
+    const { name, id, alias, mail, phone, password } = req.body;
     //obtém o usuário na tabela users
     const user = await AppDataSource.manager.findOneBy(User, { id });
     if (!user) { //verifica se o usuário existe
       return res.json({ error: "Usuário inexistente", props:"user" });
     }
+    user.name = name;
     user.alias = alias;
     user.mail = mail;
     user.phone = phone;
+    user.password = password;
     const r = await AppDataSource.manager.save(User, user).catch(e => {
       // testa se o alias é repetido
       if (/(alias)[\s\S]+(already exists)/.test(e.detail)) {
