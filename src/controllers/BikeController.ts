@@ -23,53 +23,59 @@ class BikeController {
       material,
       address,
     } = req.body;
-  
-    // Verifique se o endereço idêntico já existe no banco de dados
-    const existingAddress = await AppDataSource.manager.findOneBy(Address, address);
-  
-    let addressEntity;
-    if (existingAddress) {
-      addressEntity = existingAddress;
-    } else {
-      addressEntity = await AppDataSource.manager.save(Address, address);
-    }
-  
+
     // Verifique se o gênero já existe no banco de dados
     const existingGender = await AppDataSource.manager.findOneBy(Gender, { name: gender.name });
-  
+
     let genderEntity;
     if (existingGender) {
       genderEntity = existingGender;
     } else {
       genderEntity = await AppDataSource.manager.save(Gender, gender);
     }
-  
+
     // Verifique se a marca já existe no banco de dados
     const existingBrand = await AppDataSource.manager.findOneBy(Brand, { name: brand.name });
-  
+
     let brandEntity;
     if (existingBrand) {
       brandEntity = existingBrand;
     } else {
       brandEntity = await AppDataSource.manager.save(Brand, brand);
     }
-  
+
     // Verifique se o material já existe no banco de dados
     const existingMaterial = await AppDataSource.manager.findOneBy(Material, { name: material.name });
-  
+
     let materialEntity;
     if (existingMaterial) {
       materialEntity = existingMaterial;
     } else {
       materialEntity = await AppDataSource.manager.save(Material, material);
     }
-  
+
     // Obtenha o usuário na tabela users
     const userEntity = await AppDataSource.manager.findOneBy(User, { id: user });
     if (!userEntity) {
       return res.status(400).json({ error: "Usuário desconhecido", props: "user" });
     }
+
+    // Adicione o ID do usuário ao objeto de endereço
+    address.user = userEntity.id; 
+    
   
+    // Supondo que a coluna no objeto de endereço seja 'iduser'
+
+    // Verifique se o endereço idêntico já existe no banco de dados
+    const existingAddress = await AppDataSource.manager.findOneBy(Address, address);
+
+    let addressEntity;
+    if (existingAddress) {
+      addressEntity = existingAddress;
+    } else {
+      addressEntity = await AppDataSource.manager.save(Address, address);
+    }
+
     const bike = await AppDataSource.manager.save(Bike, {
       size,
       gender: genderEntity,
@@ -84,6 +90,7 @@ class BikeController {
       material: materialEntity,
       address: addressEntity,
     });
+
   
     return res.json(bike);
   }

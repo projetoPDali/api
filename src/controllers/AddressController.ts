@@ -4,7 +4,7 @@ import { Address } from '../entities/Address';
 
 class AddressController {
   public async create(req: Request, res: Response): Promise<Response> {
-    const { street, city, state, cep } = req.body;
+    const { street, city, state, cep, neighborhood, number, user } = req.body;
 
     if (!street || !city || !state || !cep) {
       return res.status(400).json({ error: "Todos os campos do endereço são obrigatórios" });
@@ -14,7 +14,10 @@ class AddressController {
     address.street = street;
     address.city = city;
     address.state = state;
-    address.cep = cep; // Alterado de zipCode para cep
+    address.cep = cep; 
+    address.neighborhood = neighborhood
+    address.number = number
+    address.user = user
 
     try {
       const savedAddress = await AppDataSource.manager.save(Address, address);
@@ -25,7 +28,7 @@ class AddressController {
   }
 
   public async update(req: Request, res: Response): Promise<Response> {
-    const { id, street, city, state, cep } = req.body;
+    const { id, street, city, state, cep,  neighborhood, number, user } = req.body;
 
     if (!street || !city || !state || !cep) {
       return res.status(400).json({ error: "Todos os campos do endereço são obrigatórios" });
@@ -36,7 +39,10 @@ class AddressController {
     address.street = street;
     address.city = city;
     address.state = state;
-    address.cep = cep; // Alterado de zipCode para cep
+    address.cep = cep; 
+    address.neighborhood= neighborhood
+    address.neighborhood= number
+    address.user = user
 
     try {
       const updatedAddress = await AppDataSource.manager.save(Address, address);

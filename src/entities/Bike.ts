@@ -21,10 +21,11 @@ export class Bike {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ length: 50, nullable: true })
+  title: string;
+
   @Column({ nullable: false, length: 10 })
   size: string;
-
- 
 
   @Column({ nullable: false, length: 10 })
   gear: string;

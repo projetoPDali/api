@@ -1,11 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
+import { User } from "./User";
 
 @Entity({ name: "addresses" })
 export class Address {
   @PrimaryGeneratedColumn()
   id: number;
 
-  
   @Column({ nullable: false, length: 100 })
   street: string;
 
@@ -18,10 +18,13 @@ export class Address {
   @Column({ nullable: false, length: 50 })
   state: string;
 
-  @Column({ nullable: false, })
+  @Column({ nullable: false })
   cep: number;
 
-  @Column({ nullable: true, })
+  @Column({ nullable: true })
   number: number;
-  // Outros campos de endereço, se necessário
+
+  @ManyToOne(() => User, (user) => user.addresses)
+  @JoinColumn({ name: "iduser" })
+  user: User;
 }
