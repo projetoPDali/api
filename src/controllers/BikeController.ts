@@ -6,6 +6,7 @@ import { Brand } from "../entities/Brand";
 import { Material } from "../entities/Material";
 import { Address } from "../entities/Address";
 import { Gender } from "../entities/Gender";
+import { StringSearch } from "../string_search";
 
 class BikeController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -188,6 +189,43 @@ if (!gender) {
     });
     return res.json(bikes);
   }
+
+  
+  public async listByMaterial(req: Request, res: Response): Promise<Response> {
+    const { material } = req.params;
+  
+    // Obtenha todas as bicicletas
+    const bikes = await AppDataSource.manager.find(Bike, {
+      relations: {
+        user: true,
+        brand: true,
+        material: true,
+        photos: true,
+        address: true,
+        gender: true
+      },
+    });
+  
+    const stringSearch = new StringSearch();
+    const matchingBikes = [];
+  
+    bikes.forEach((bike) => {
+      const materialName = bike.material.name.toLowerCase();
+  
+      // Use o algoritmo StringSearch para verificar se o material da bicicleta contém a pesquisa
+      if (stringSearch.trivial(material, materialName).length > 0) {
+        matchingBikes.push(bike);
+      }
+    });
+  
+    if (matchingBikes.length === 0) {
+      return res.status(404).json({ error: "Nenhuma bicicleta encontrada com esse material" });
+    }
+  
+    return res.json(matchingBikes);
+  }
+  
+
 
   public async delete(req: Request, res: Response): Promise<Response> {
     const { id } = req.body;
