@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
 import { User } from "./User";
 
+
 @Entity({ name: "addresses" })
 export class Address {
   @PrimaryGeneratedColumn()

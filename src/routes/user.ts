@@ -9,6 +9,9 @@ routes.delete('/', controller.delete);
 routes.put('/', controller.update);
 routes.get('/:id', controller.getById); // Route for retrieving a user by ID
 
+// Rota de login
+routes.post('/login',controller.login); 
+
 
 //aceita qualquer método HTTP ou URL
 routes.use( (_:Request,res:Response) => res.json({error:"Requisição desconhecida"}) );
