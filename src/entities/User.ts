@@ -19,7 +19,7 @@ export class User {
   @Column({ nullable: false, length: 20, unique: true })
   phone: string;
 
-  @Column({ nullable: false, length: 10, unique: true })
+  @Column({ nullable: true, length: 50, unique: true })
   password: string;
 
   @OneToMany(() => Rent, (rent) => rent.bike)
