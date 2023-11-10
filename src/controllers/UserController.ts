@@ -9,17 +9,13 @@ class UserController {
     const user = await AppDataSource.manager
       .save(User, { name, alias, mail, phone, password })
       .catch((e) => {
-        // testa se o alias é repetido
-        if (/(alias)[\s\S]+(already exists)/.test(e.detail)) {
-          return { error: 'Codinome já existe', props: "alias" };
-        }
         // testa se o e-mail é repetido
-        else if (/(mail)[\s\S]+(already exists)/.test(e.detail)) {
-          return { error: 'E-mail já existe', props:"mail" };
+        if (/(mail)[\s\S]+(already exists)/.test(e.detail)) {
+          return { error: "E-mail já existe", props: "mail" };
         }
         // testa se o e-mail é repetido
         else if (/(phone)[\s\S]+(already exists)/.test(e.detail)) {
-          return { error: 'Telefone já existe', props:"phone" };
+          return { error: "Telefone já existe", props: "phone" };
         }
         return { error: e.message, props: "" };
       });
@@ -32,7 +28,7 @@ class UserController {
     const user = await AppDataSource.manager.findOneBy(User, { id });
     if (!user) {
       //verifica se o usuário existe
-      return res.json({ error: 'Usuário inexistente', props: "user" });
+      return res.json({ error: "Usuário inexistente", props: "user" });
     }
     user.name = name;
     user.alias = alias;
@@ -40,19 +36,15 @@ class UserController {
     user.phone = phone;
     user.password = password;
     const r = await AppDataSource.manager.save(User, user).catch((e) => {
-      // testa se o alias é repetido
-      if (/(alias)[\s\S]+(already exists)/.test(e.detail)) {
-        return { error: 'Codinome já existe', props:"alias" };
-      }
       // testa se o e-mail é repetido
-      else if (/(mail)[\s\S]+(already exists)/.test(e.detail)) {
-        return { error: 'E-mail já existe', props:"mail" };
+      if (/(mail)[\s\S]+(already exists)/.test(e.detail)) {
+        return { error: "E-mail já existe", props: "mail" };
       }
       // testa se o e-mail é repetido
       else if (/(phone)[\s\S]+(already exists)/.test(e.detail)) {
-        return { error: 'Telefone já existe', props:"phone" };
+        return { error: "Telefone já existe", props: "phone" };
       }
-      return { error: e.message, props:"" };
+      return { error: e.message, props: "" };
     });
     return res.json(r);
   }
@@ -60,7 +52,7 @@ class UserController {
   public async list(_: Request, res: Response): Promise<Response> {
     const users = await AppDataSource.manager.find(User, {
       order: {
-        alias: "ASC"
+        alias: "ASC",
       },
     });
     return res.json(users);
@@ -92,37 +84,36 @@ class UserController {
   public async login(req: Request, res: Response): Promise<Response> {
     const { mail, password } = req.body;
     let user;
-  
+
     try {
       user = await AppDataSource.manager.findOne(User, {
         where: { mail },
       });
-  
+
       if (!user) {
-        throw new Error('Usuário inexistente');
+        throw new Error("Usuário inexistente");
       }
-  
+
       if (user.password !== password) {
-        throw new Error('Senha incorreta');
+        throw new Error("Senha incorreta");
       }
-  
-      console.log('Login bem-sucedido');
-  
+
+      console.log("Login bem-sucedido");
+
       // Usuário autenticado, você pode gerar um token de autenticação aqui, se necessário.
-  
-      return res.json({ message: 'Login bem-sucedido', user });
+
+      return res.json({ message: "Login bem-sucedido", user });
     } catch (error) {
-      if (error.message === 'Usuário inexistente') {
-        return res.json({ error: 'Usuário inexistente', props: 'user' });
-      } else if (error.message === 'Senha incorreta') {
-        return res.json({ error: 'Senha incorreta', props: 'password' });
+      if (error.message === "Usuário inexistente") {
+        return res.json({ error: "Usuário inexistente", props: "user" });
+      } else if (error.message === "Senha incorreta") {
+        return res.json({ error: "Senha incorreta", props: "password" });
       } else {
-        console.error('Erro durante o login:', error);
-        return res.json({ error: 'Erro interno do servidor' });
+        console.error("Erro durante o login:", error);
+        return res.json({ error: "Erro interno do servidor" });
       }
     }
   }
-  
 }
 
 export default new UserController();
