@@ -10,7 +10,7 @@ export class User {
   @Column({ nullable: false, length: 40, unique: true })
   name: string;
 
-  @Column({ nullable: false, length: 15, unique: true })
+  @Column({ nullable: false, length: 30 })
   alias: string;
 
   @Column({ nullable: false, length: 50, unique: true })
@@ -19,7 +19,7 @@ export class User {
   @Column({ nullable: true, length: 20, unique: true })
   phone: string;
 
-  @Column({ nullable: true, length: 50, unique: true })
+  @Column({ nullable: true, length: 50,})
   password: string;
 
   @OneToMany(() => Rent, (rent) => rent.bike)
